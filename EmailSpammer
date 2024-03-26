@@ -1,0 +1,26 @@
+import smtplib, ssl # Allows emails to be sent
+import time # Allows code to wait before max sending limit is met
+
+def send(): # Main fuction
+    n = 450 # Number of emails to send to bypass the smtplib email sending limit
+    port = 465  # Port for "ssl" 
+    smtp_server = "smtp.gmail.com" # No change
+    sender_email = "Email"  # Enter your address here
+    receiver_email = input("Enter reciever email here: ")  # Enter receiver address here
+    password = "App password" # Enter your app password here
+    message = """\
+Subject: Hi there
+
+https://drive.google.com/file/d/1rGMjmjJnoEEORWhnb7pA7Q0gqZdHYyBN/view?usp=sharing""" # Enter what you want to send
+    for i in range(n): # Calls "n" variable
+        context = ssl.create_default_context() # Collects imputed data
+        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server: # Logs into server
+            server.login(sender_email, password) # Logs in to email
+            server.sendmail(sender_email, receiver_email, message) # Sends email
+        print("Sent", (i + 1)) # Prints send and number sent in the console
+        
+    time.sleep(86400) # Waits 24 hours
+
+    send() # Calls fuction
+
+send() # Puts code in infinate loop
